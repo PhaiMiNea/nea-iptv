@@ -27,17 +27,20 @@
   --shadow:0 10px 30px rgba(0,0,0,.5);
   --shadow-lg:0 20px 60px rgba(0,0,0,.65);
   --sidebar-w:400px;
-  --mini-h:64px;
+  --mini-h:56px;
   --transition:180ms cubic-bezier(.4,0,.2,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;-webkit-text-size-adjust:100%;overscroll-behavior:none}
+html{height:100%;overflow:hidden;-webkit-text-size-adjust:100%;overscroll-behavior:none}
 body{
   font-family:'Kantumruy Pro',system-ui,-apple-system,sans-serif;
   background:radial-gradient(1400px 700px at 85% -15%,rgba(43,79,216,.22),transparent 55%),
              radial-gradient(900px 500px at 10% 110%,rgba(227,176,75,.08),transparent 60%),
              linear-gradient(180deg,var(--bg-grad1),var(--bg-grad2));
-  color:var(--text);display:flex;font-size:14px;line-height:1.5;
+  color:var(--text);font-size:14px;line-height:1.5;
+  height:100%;
+  display:flex;
+  overflow:hidden;
 }
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
 input{font:inherit;color:inherit}
@@ -94,7 +97,6 @@ img{display:block;max-width:100%}
 }
 #reset-dead:hover{background:var(--red-soft);border-color:var(--red)}
 
-/* ===== Search + chips ===== */
 #search-wrapper{
   padding:10px 18px 4px;position:sticky;top:0;
   background:linear-gradient(180deg,var(--panel) 70%,transparent);
@@ -105,7 +107,7 @@ img{display:block;max-width:100%}
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
   background:var(--card);border:1px solid var(--line);
   display:flex;align-items:center;justify-content:center;
-  font-size:19px;transition:all var(--transition);
+  font-size:19px;transition:all var(--transition);position:relative;
 }
 #btn-open-countries:hover{background:var(--card-hover);border-color:var(--gold);color:var(--gold)}
 #btn-open-countries .badge-dot{
@@ -130,18 +132,14 @@ img{display:block;max-width:100%}
 #search-clear:hover{background:var(--red-soft);color:#ff8a98}
 #search-box:not(:placeholder-shown) ~ #search-clear{display:flex}
 
-/* ===== Country flag strip ===== */
+/* ===== Country strip ===== */
 #country-strip{
   display:flex;gap:6px;overflow-x:auto;padding:8px 18px 10px;
   scrollbar-width:none;flex-shrink:0;
-  min-width:0;
-  max-width:100%;
-  width:100%;
-  box-sizing:border-box;
+  min-width:0;max-width:100%;width:100%;box-sizing:border-box;
   mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
 }
-#country-strip::-webkit-scrollbar{display:none}
 .flag-chip{
   flex-shrink:0;padding:6px 11px 6px 8px;border-radius:20px;
   background:var(--card);border:1px solid var(--line);
@@ -158,18 +156,14 @@ img{display:block;max-width:100%}
 }
 .flag-chip .count{font-size:10px;opacity:.7;font-weight:600}
 
-/* ===== Category chips ===== */
+/* ===== Chips ===== */
 #chips{
   display:flex;gap:7px;overflow-x:auto;padding:0 18px 12px;
   scrollbar-width:none;flex-shrink:0;
-  min-width:0;
-  max-width:100%;
-  width:100%;
-  box-sizing:border-box;
+  min-width:0;max-width:100%;width:100%;box-sizing:border-box;
   mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
 }
-#chips::-webkit-scrollbar{display:none}
 .chip{
   flex-shrink:0;padding:7px 14px;border-radius:20px;
   background:var(--card);border:1px solid var(--line);
@@ -185,26 +179,11 @@ img{display:block;max-width:100%}
 }
 .chip .count{font-size:10px;opacity:.7;font-weight:600}
 
-/* Visible thin scrollbar for horizontal strips on desktop */
-#country-strip,
-#chips{
-  scrollbar-width:thin;
-  scrollbar-color:var(--line-2) transparent;
-}
-#country-strip::-webkit-scrollbar,
-#chips::-webkit-scrollbar{
-  display:block;
-  height:4px;
-}
-#country-strip::-webkit-scrollbar-thumb,
-#chips::-webkit-scrollbar-thumb{
-  background:var(--line-2);
-  border-radius:2px;
-}
-#country-strip::-webkit-scrollbar-track,
-#chips::-webkit-scrollbar-track{
-  background:transparent;
-}
+/* Visible thin scrollbar for horizontal strips */
+#country-strip,#chips{scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+#country-strip::-webkit-scrollbar,#chips::-webkit-scrollbar{display:block;height:4px}
+#country-strip::-webkit-scrollbar-thumb,#chips::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:2px}
+#country-strip::-webkit-scrollbar-track,#chips::-webkit-scrollbar-track{background:transparent}
 
 #list-toolbar{
   display:flex;align-items:center;gap:6px;
@@ -220,6 +199,7 @@ img{display:block;max-width:100%}
 #channels-container{
   flex:1;overflow-y:auto;padding:0 10px calc(16px + env(safe-area-inset-bottom));
   -webkit-overflow-scrolling:touch;scroll-behavior:smooth;
+  min-height:0;
 }
 
 /* ===== Category block ===== */
@@ -245,18 +225,9 @@ img{display:block;max-width:100%}
 .cat-name .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cat-meta{display:flex;align-items:center;gap:9px;font-size:11.5px;color:var(--muted);flex-shrink:0}
 .cat-count{
-  background:var(--card-2);
-  padding:2px 9px;
-  border-radius:20px;
-  font-weight:600;
-  font-size:11px;
-  color:#a8b4d4;
-  min-width:22px;
-  text-align:center;
-  flex-shrink:0;
-  /* NEW: better contrast on dark backgrounds */
-  border:1px solid rgba(255,255,255,.04);
-  font-variant-numeric:tabular-nums;
+  background:var(--card-2);padding:2px 9px;border-radius:20px;
+  font-weight:600;font-size:11px;color:#a8b4d4;min-width:22px;text-align:center;
+  border:1px solid rgba(255,255,255,.04);font-variant-numeric:tabular-nums;
 }
 .arrow{transition:transform var(--transition);font-size:9px;color:var(--muted)}
 .arrow.open{transform:rotate(180deg)}
@@ -367,7 +338,6 @@ img{display:block;max-width:100%}
 #video-msg .big{font-size:52px;opacity:.9;filter:drop-shadow(0 8px 24px rgba(43,79,216,.3))}
 #video-msg .sub{font-size:12.5px;color:var(--muted);margin-top:-4px}
 
-/* Mini-expand button — hidden on desktop by default */
 #mini-expand{display:none}
 
 #player-info{
@@ -504,7 +474,6 @@ img{display:block;max-width:100%}
   font-size:16px;color:var(--muted);transition:all var(--transition);
 }
 .sheet-close:hover{background:var(--red-soft);color:#ff8a98;border-color:var(--red)}
-
 .sheet-search{padding:12px 20px 8px;flex-shrink:0}
 .sheet-search input{
   width:100%;padding:11px 14px 11px 38px;
@@ -513,7 +482,6 @@ img{display:block;max-width:100%}
   font-size:14px;outline:none;
 }
 .sheet-search input:focus{border-color:var(--gold)}
-
 .sheet-body{
   flex:1;overflow-y:auto;padding:6px 12px 20px;
   -webkit-overflow-scrolling:touch;
@@ -550,177 +518,6 @@ img{display:block;max-width:100%}
 .country-btn.on .num{color:#b8cce0}
 
 /* ============================================================
-   MOBILE LAYOUT  (max-width: 900px)
-   ============================================================ */
-@media (max-width:900px){
-  html, body{
-    height:100dvh;
-    overflow:hidden;
-  }
-  body{
-    flex-direction:column;
-    background:var(--bg);
-  }
-
-  /* Player: sticky mini-header */
-  #player-area{
-    order:1;
-    flex:none;
-    height:auto;
-    overflow:visible;
-    padding-top:env(safe-area-inset-top);
-    position:relative;          /* was sticky — sticky on body breaks scroll */
-    z-index:20;
-    background:var(--panel);
-    transition:box-shadow .25s;
-  }
-  #player-area.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.5)}
-
-  #video-wrapper{padding:0;transition:padding .25s}
-  #video-container{border-radius:0;border:0;box-shadow:none;transition:all .25s cubic-bezier(.4,0,.2,1)}
-  #video-player{transition:all .25s}
-
-  /* Mini-player mode */
-  body.mini #video-wrapper{padding:0 10px}
-  body.mini #video-container{border-radius:12px;max-height:var(--mini-h);margin:0}
-  body.mini #video-player{aspect-ratio:auto;height:var(--mini-h);width:auto;max-width:110px;float:left}
-  body.mini #video-msg{padding:6px}
-  body.mini #video-msg .big{font-size:20px}
-  body.mini #video-msg .sub{display:none}
-
-  body.mini #player-info{
-    position:absolute;top:8px;left:130px;right:52px;
-    padding:0;gap:6px;align-items:center;background:transparent;
-  }
-  body.mini .live-badge{display:none}
-  body.mini #now-playing-name{font-size:13px;line-height:1.2}
-  body.mini #now-group{font-size:10px}
-  body.mini #status-pill{display:none}
-  body.mini #btn-fav{width:34px;height:34px;font-size:16px}
-  body.mini #share-bar,
-  body.mini #controls,
-  body.mini #hint{display:none}
-
-  #mini-expand{
-    display:none;position:absolute;top:50%;right:16px;transform:translateY(-50%);
-    width:40px;height:40px;border-radius:50%;
-    background:rgba(255,255,255,.1);backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,.15);
-    align-items:center;justify-content:center;
-    color:#fff;font-size:18px;z-index:5;
-  }
-  body.mini #mini-expand{display:flex}
-
-  /* Sidebar: fills the rest of the viewport, owns its scroll */
-  #sidebar{
-    order:2;
-    width:100%;
-    min-width:0;
-    max-width:none;
-    height:auto;
-    min-height:0;
-    flex:1;
-    border-right:0;
-    border-top:0;
-    display:flex;
-    flex-direction:column;
-    background:transparent;
-    backdrop-filter:none;
-    overflow:hidden;            /* contain children */
-    position:static;
-  }
-  #sidebar-header{display:none}
-
-  /* Search bar: static, not sticky (sticky breaks inside overflow:hidden) */
-  #search-wrapper{
-    position:static;
-    padding:10px 14px 4px;
-    background:linear-gradient(180deg,var(--panel) 70%,transparent);
-  }
-
-  #country-strip{padding:6px 14px 8px}
-  #chips{padding:0 14px 10px}
-  #list-toolbar{padding:0 14px 6px}
-
-  /* THE SCROLL SURFACE on mobile */
-  #channels-container{
-    flex:1;
-    min-height:0;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    padding:0 8px calc(24px + env(safe-area-inset-bottom));
-  }
-
-  /* Denser channel grid */
-  .channel-list-wrapper.open{
-    grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:7px;
-  }
-  .channel-item{min-height:92px;padding:10px 4px 8px}
-  .ch-logo{width:42px;height:42px;border-radius:10px}
-  .ch-name{font-size:11px}
-
-  /* Player info / controls tighten */
-  #player-info{padding:12px 16px 4px;gap:10px}
-  #now-playing-name{font-size:16px}
-  #btn-fav{width:40px;height:40px;font-size:18px}
-  #share-bar{margin:10px 16px 0}
-  #controls{padding:10px 16px 12px;gap:7px}
-  #controls button{min-height:48px;flex-direction:row;justify-content:center;gap:6px;padding:9px 4px;font-size:11px}
-  #controls button span{font-size:17px}
-  #controls button em{display:none}
-  #hint{display:none}
-
-  /* Country sheet */
-  #country-sheet{max-height:88dvh}
-  .country-grid{grid-template-columns:repeat(2,1fr);gap:6px}
-}
-
-@media (max-width:520px){
-  #stats-bar .stat-pill:nth-child(2),
-  #stats-bar .stat-pill:nth-child(3){display:none}
-  #status-pill #status{display:none}
-  #status-pill{padding:6px 10px}
-  /* Keep the count visible on mobile — just slightly smaller */
-  .cat-count{
-    font-size:10px;
-    padding:2px 8px;
-    min-width:20px;
-  }
-  .channel-list-wrapper.open{grid-template-columns:repeat(3,1fr)}
-  .country-grid{grid-template-columns:1fr 1fr}
-}
-
-@media (max-width:400px){
-  .channel-list-wrapper.open{grid-template-columns:repeat(2,1fr)}
-  #now-group{display:none}
-}
-
-/* Landscape phone */
-@media (max-width:520px){
-  #stats-bar .stat-pill:nth-child(2),
-  #stats-bar .stat-pill:nth-child(3){display:none}
-  #status-pill #status{display:none}
-  #status-pill{padding:6px 10px}
-
-  /* ✅ KEEP THE COUNT — just slightly smaller */
-  .cat-meta{gap:6px}
-  .cat-meta .cat-count{
-    display:inline-flex;
-    align-items:center;
-    font-size:10px;
-    padding:2px 7px;
-    min-width:0;
-  }
-
-  .channel-list-wrapper.open{grid-template-columns:repeat(3,1fr)}
-  .country-grid{grid-template-columns:1fr 1fr}
-}
-@media (max-width:360px){
-  #now-group{display:none}
-  .channel-list-wrapper.open{grid-template-columns:repeat(2,1fr)}
-}
-
-/* ============================================================
    TOAST
    ============================================================ */
 #toast{
@@ -740,55 +537,287 @@ img{display:block;max-width:100%}
   transition:filter var(--transition);
 }
 #toast-action:hover{filter:brightness(1.1)}
+
+/* ============================================================
+   MOBILE LAYOUT (≤ 900px)
+   ============================================================ */
+@media (max-width:900px){
+  html{ overflow:hidden; }
+  body{
+    display:flex;
+    flex-direction:column;
+    height:100dvh;
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    position:relative;
+    background:var(--bg);
+  }
+
+  #player-area{
+    order:0;
+    flex:none;
+    height:auto;
+    min-height:auto;
+    overflow:visible;
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--panel);
+    padding-top:env(safe-area-inset-top);
+    box-shadow:0 4px 20px rgba(0,0,0,.45);
+    transition:box-shadow .25s;
+  }
+  #player-area.scrolled{
+    box-shadow:0 6px 24px rgba(0,0,0,.6);
+    border-bottom:1px solid var(--line);
+  }
+
+  #video-wrapper{padding:0;transition:padding .25s;position:relative}
+  #video-container{
+    border-radius:0;border:0;box-shadow:none;
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+  }
+  #video-player{transition:all .25s}
+
+  /* Mini-player */
+  body.mini #player-area{box-shadow:0 4px 20px rgba(0,0,0,.55);border-bottom:1px solid var(--line)}
+  body.mini #video-wrapper{
+    padding:6px 10px;display:flex;align-items:center;gap:10px;
+    min-height:calc(var(--mini-h) + 12px);
+  }
+  body.mini #video-container{
+    border-radius:10px;max-height:var(--mini-h);margin:0;
+    display:flex;align-items:center;background:#000;
+    width:auto;max-width:120px;
+  }
+  body.mini #video-player{
+    aspect-ratio:auto;height:var(--mini-h);width:auto;max-width:120px;
+  }
+  body.mini #video-msg{padding:4px;font-size:10px}
+  body.mini #video-msg .big{font-size:16px}
+  body.mini #video-msg .sub{display:none}
+
+  body.mini #player-info{
+    position:absolute;top:50%;left:calc(120px + 16px);right:56px;
+    transform:translateY(-50%);padding:0;gap:4px;
+    align-items:flex-start;flex-direction:column;flex-wrap:nowrap;
+    background:transparent;
+  }
+  body.mini .live-badge{display:none}
+  body.mini #now-playing-name{font-size:13px;line-height:1.2;width:100%}
+  body.mini #now-group{font-size:10px;margin-top:0}
+  body.mini #status-pill{display:none}
+  body.mini #btn-fav{
+    position:absolute;top:50%;right:12px;transform:translateY(-50%);
+    width:34px;height:34px;font-size:16px;
+  }
+  body.mini #share-bar,
+  body.mini #controls,
+  body.mini #hint{display:none}
+
+  #mini-expand{
+    display:none;position:absolute;top:50%;right:56px;transform:translateY(-50%);
+    width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);
+    align-items:center;justify-content:center;
+    color:#fff;font-size:15px;z-index:5;
+  }
+  body.mini #mini-expand{display:flex}
+
+  /* Compact player-info / share / controls */
+  #player-info{padding:10px 14px 4px;gap:8px}
+  #now-playing-name{font-size:15px}
+  #now-group{font-size:11px;margin-top:1px}
+  #btn-fav{width:34px;height:34px;font-size:16px}
+  #status-pill{padding:5px 10px;font-size:11px}
+
+  #share-bar{
+    margin:8px 14px 0;padding:3px 3px 3px 10px;
+    border-radius:10px;gap:6px;
+  }
+  #share-bar .ico{font-size:12px}
+  #share-url{font-size:11.5px;padding:3px 0}
+  #btn-copy{padding:6px 12px;font-size:11px;border-radius:8px}
+
+  #controls{
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+    padding:8px 14px calc(10px + env(safe-area-inset-bottom));
+  }
+  #controls button{
+    min-height:40px;padding:6px 2px;flex-direction:column;gap:1px;
+    font-size:9px;border-radius:9px;
+  }
+  #controls button span{font-size:16px;line-height:1}
+  #controls button em{display:block;font-size:9px;font-style:normal;opacity:.8}
+  #hint{display:none}
+
+  /* Sidebar flows below sticky player */
+  #sidebar{
+    order:1;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    min-width:0;
+    max-width:none;
+    height:auto;
+    flex:none;
+    border-right:0;
+    border-top:0;
+    background:transparent;
+    backdrop-filter:none;
+    overflow:visible;
+    position:relative;
+    z-index:1;
+  }
+  #sidebar-header{display:none}
+
+  #search-wrapper{
+    position:static;
+    padding:10px 14px 4px;
+    background:linear-gradient(180deg,var(--panel) 80%,transparent);
+    z-index:6;
+  }
+
+  #country-strip{padding:6px 14px 8px}
+  #chips{padding:0 14px 10px}
+  #list-toolbar{padding:0 14px 6px}
+
+  #channels-container{
+    flex:none;
+    overflow:visible;
+    padding:0 8px calc(40px + env(safe-area-inset-bottom));
+    min-height:0;
+  }
+
+  .channel-list-wrapper.open{
+    grid-template-columns:repeat(auto-fill,minmax(92px,1fr));
+    gap:7px;
+  }
+  .channel-item{min-height:92px;padding:10px 4px 8px}
+  .ch-logo{width:42px;height:42px;border-radius:10px}
+  .ch-name{font-size:11px}
+
+  #country-sheet{max-height:88dvh}
+  .country-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+}
+
+/* ===== Small phones ===== */
+@media (max-width:520px){
+  #stats-bar .stat-pill:nth-child(2),
+  #stats-bar .stat-pill:nth-child(3){display:none}
+  #status-pill #status{display:none}
+  #status-pill{padding:5px 9px}
+  .cat-count{font-size:10px;padding:2px 7px;min-width:0}
+  .cat-meta{gap:6px}
+  .channel-list-wrapper.open{grid-template-columns:repeat(3,1fr)}
+  .country-grid{grid-template-columns:1fr 1fr}
+
+  #share-bar{margin:6px 12px 0;padding:3px 3px 3px 9px}
+  #btn-copy{padding:5px 10px;font-size:10.5px}
+  #share-url{font-size:11px}
+  #controls{gap:5px;padding:6px 12px calc(8px + env(safe-area-inset-bottom))}
+  #controls button{min-height:38px;font-size:8.5px;padding:5px 2px}
+  #controls button span{font-size:15px}
+}
+
+@media (max-width:400px){
+  .channel-list-wrapper.open{grid-template-columns:repeat(2,1fr)}
+  #now-group{display:none}
+}
+
+/* ===== Landscape phone — back to side-by-side ===== */
+@media (max-height:520px) and (orientation:landscape) and (max-width:1000px){
+  html{overflow:hidden}
+  body{
+    display:flex;
+    flex-direction:row;
+    height:100dvh;
+    overflow:hidden;
+  }
+  #player-area{
+    order:0;
+    flex:1;
+    height:100dvh;
+    position:static;
+    overflow-y:auto;
+    box-shadow:none;
+    border-bottom:0;
+    padding-top:0;
+  }
+  #sidebar{
+    order:1;
+    width:320px;
+    min-width:320px;
+    max-width:320px;
+    height:100dvh;
+    flex:none;
+    display:flex;
+    border-left:1px solid var(--line);
+    overflow:hidden;
+  }
+  #search-wrapper{position:sticky;top:0}
+  #video-wrapper{padding:10px 10px 0}
+  #controls{padding:8px 10px}
+  #hint{display:none}
+  body.mini #player-area{position:static;box-shadow:none}
+}
+
+/* ============================================================
+   HIDE SCROLLBAR ON MOBILE ONLY
+   ============================================================ */
+@media (max-width:900px){
+  /* Page scrollbar */
+  body{
+    -ms-overflow-style:none;      /* IE / old Edge */
+    scrollbar-width:none;         /* Firefox */
+  }
+  body::-webkit-scrollbar{
+    display:none;
+    width:0;
+    height:0;
+  }
+
+  /* Horizontal strips */
+  #country-strip::-webkit-scrollbar,
+  #chips::-webkit-scrollbar{
+    display:none;
+    width:0;
+    height:0;
+  }
+  #country-strip,
+  #chips{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+
+  /* Country sheet body */
+  .sheet-body::-webkit-scrollbar{
+    display:none;
+    width:0;
+    height:0;
+  }
+  .sheet-body{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+
+  /* Sidebar channel list (just in case it becomes scrollable) */
+  #channels-container::-webkit-scrollbar{
+    display:none;
+    width:0;
+    height:0;
+  }
+  #channels-container{
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+}
 </style>
 </head>
 <body>
-  <!-- ===== SIDEBAR (browser) ===== -->
-  <aside id="sidebar" aria-label="Channel browser">
-    <div id="sidebar-header">
-      <div class="brand">
-        <img src="https://i.ibb.co/6RCkZpvD/khmer-icon-tv.png" alt="Nea IPTV" />
-        <div class="brand-text">
-          <div class="brand-title"><b>Nea</b> IPTV</div>
-          <div class="brand-sub"><span class="live-pill">LIVE</span> Streaming</div>
-        </div>
-      </div>
-      <div id="stats-bar" role="status">
-        <span class="stat-pill"><span class="ico">📡</span><strong id="total-channels">0</strong> channels</span>
-        <span class="stat-pill"><span class="ico">🌍</span><strong id="total-countries">0</strong> countries</span>
-        <span class="stat-pill dead"><span class="ico">🚫</span><strong id="total-dead">0</strong> removed</span>
-        <button id="reset-dead" title="Bring back removed dead streams">Restore</button>
-      </div>
-    </div>
-
-    <div id="search-wrapper">
-      <div class="search-inner">
-        <button id="btn-open-countries" aria-label="Browse by country" style="position:relative">
-          🌍<span class="badge-dot" aria-hidden="true"></span>
-        </button>
-        <div style="position:relative;flex:1">
-          <input type="search" id="search-box" placeholder="Search channels…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search channels" />
-          <button id="search-clear" aria-label="Clear search">✕</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="country-strip" aria-label="Quick country filter"></div>
-    <div id="chips" role="tablist" aria-label="Categories"></div>
-
-    <div id="list-toolbar">
-      <button id="btn-expand-all">Expand all</button>
-      <button id="btn-collapse-all">Collapse</button>
-      <span class="spacer"></span>
-      <span id="result-count"></span>
-    </div>
-
-    <div id="channels-container" role="region" aria-label="Channels">
-      <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
-    </div>
-  </aside>
-
-  <!-- ===== PLAYER ===== -->
+  <!-- ===== PLAYER FIRST (mobile: sticky top) ===== -->
   <main id="player-area" aria-label="Video player">
     <div id="video-wrapper">
       <div id="video-container">
@@ -838,6 +867,51 @@ img{display:block;max-width:100%}
       <span><kbd>Esc</kbd> clear</span>
     </div>
   </main>
+
+  <!-- ===== SIDEBAR SECOND (mobile: flows below) ===== -->
+  <aside id="sidebar" aria-label="Channel browser">
+    <div id="sidebar-header">
+      <div class="brand">
+        <img src="https://i.ibb.co/6RCkZpvD/khmer-icon-tv.png" alt="Nea IPTV" />
+        <div class="brand-text">
+          <div class="brand-title"><b>Nea</b> IPTV</div>
+          <div class="brand-sub"><span class="live-pill">LIVE</span> Streaming</div>
+        </div>
+      </div>
+      <div id="stats-bar" role="status">
+        <span class="stat-pill"><span class="ico">📡</span><strong id="total-channels">0</strong> channels</span>
+        <span class="stat-pill"><span class="ico">🌍</span><strong id="total-countries">0</strong> countries</span>
+        <span class="stat-pill dead"><span class="ico">🚫</span><strong id="total-dead">0</strong> removed</span>
+        <button id="reset-dead" title="Bring back removed dead streams">Restore</button>
+      </div>
+    </div>
+
+    <div id="search-wrapper">
+      <div class="search-inner">
+        <button id="btn-open-countries" aria-label="Browse by country" style="position:relative">
+          🌍<span class="badge-dot" aria-hidden="true"></span>
+        </button>
+        <div style="position:relative;flex:1">
+          <input type="search" id="search-box" placeholder="Search channels…" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search channels" />
+          <button id="search-clear" aria-label="Clear search">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="country-strip" aria-label="Quick country filter"></div>
+    <div id="chips" role="tablist" aria-label="Categories"></div>
+
+    <div id="list-toolbar">
+      <button id="btn-expand-all">Expand all</button>
+      <button id="btn-collapse-all">Collapse</button>
+      <span class="spacer"></span>
+      <span id="result-count"></span>
+    </div>
+
+    <div id="channels-container" role="region" aria-label="Channels">
+      <div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div>
+    </div>
+  </aside>
 
   <!-- ===== COUNTRY PICKER SHEET ===== -->
   <div id="sheet-backdrop" aria-hidden="true"></div>
